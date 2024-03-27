@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public class Main {
+public class Main{
 
     static class Word{
         Map<Character,Word> words;
@@ -24,9 +24,9 @@ public class Main {
         return x >= 0 && x < 5 && y >= 0 && y < 5;
     }
 
-    static void dfs(int x, int y, Word word, String str){
+    static void dfs(int x, int y, Word word, char[] str, int cnt){
         if(word.isWord){
-            set.add(str);
+            set.add(String.valueOf(str,0,cnt));
         }
         if(word.words.isEmpty()) return;
 
@@ -36,7 +36,8 @@ public class Main {
             int nx = x + dx[i];
             int ny = y + dy[i];
             if(isRange(nx,ny) && !visited[nx][ny] && word.words.containsKey(puzzle[nx][ny])){
-                dfs(nx,ny,word.words.get(puzzle[nx][ny]),str+puzzle[nx][ny]);
+                str[cnt] = puzzle[nx][ny];
+                dfs(nx,ny,word.words.get(puzzle[nx][ny]),str,cnt+1);
             }
         }
         visited[x][y] = false;
@@ -81,7 +82,9 @@ public class Main {
 
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
-                dfs(i,j,root.words.get(puzzle[i][j]),""+puzzle[i][j]);
+                char[] str = new char[25];
+                str[0] = puzzle[i][j];
+                dfs(i,j,root.words.get(puzzle[i][j]),str,1);
             }
         }
 
