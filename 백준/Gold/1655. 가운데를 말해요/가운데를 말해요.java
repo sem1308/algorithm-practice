@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Comparator;
 import java.util.PriorityQueue;
 
 public class Main{
@@ -8,18 +9,18 @@ public class Main{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         /*
+            pq 2개 사용
+            mid보다 같거나 작은거, mid보다 큰 거
+
             (1,0) 1: 1
             (1,1) 1: 1 2
             (1,2) -> (2,1) 2: 1 2 5
             (2,2) 2: 1 2 5 10
-            
-            pq 2개 사용
-            mid보다 작은거, mid보다 큰 거
          */
 
         int N = Integer.parseInt(br.readLine());
 
-        PriorityQueue<Integer> smaller = new PriorityQueue<>((a,b)->b-a);
+        PriorityQueue<Integer> smaller = new PriorityQueue<>(Comparator.reverseOrder());
         PriorityQueue<Integer> bigger = new PriorityQueue<>();
 
         StringBuilder sb = new StringBuilder();
