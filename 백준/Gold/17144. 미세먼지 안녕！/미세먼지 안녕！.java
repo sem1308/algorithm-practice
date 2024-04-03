@@ -8,24 +8,33 @@ public class Main{
 	static int[][] tempMap;
 	static int[] dx = {1,0,-1,0};
 	static int[] dy = {0,1,0,-1};
-	
-	static class Dust{
-		int x,y;
-		int amount;
 
-		public Dust(int x, int y, int amount) {
-			this.x = x;
-			this.y = y;
-			this.amount = amount;
+	public static boolean isRange(int x, int y) {
+		return isRange(x, y, 0, R);
+	}
+	
+	public static boolean isRange(int x, int y, int stX, int edX) {
+		return x >= stX && x < edX && y >= 0 && y < C;
+	}
+	
+	public static void wind(int x, int y, int dir, int dDir, int stR, int edR) {
+		int px = x+dx[dir];
+		int py = y+dy[dir];
+		int nx = px+dx[dir];
+		int ny = py+dy[dir];
+		while(map[nx][ny] != -1) {
+			map[px][py] = map[nx][ny];
+			px = nx;
+			py = ny;
+
+			if(!isRange(nx + dx[dir], ny + dy[dir], stR, edR)) {
+				dir = (dir+dDir) % 4;
+			}
+			
+			nx = nx+dx[dir];
+			ny = ny+dy[dir];
 		}
-	}
-
-	public static boolean isRange(int x, int y, int R, int C) {
-		return isRange(x,y,0,0,R,C);
-	}
-	
-	public static boolean isRange(int x, int y, int stX, int stY, int R, int C) {
-		return x >= stX && x < R && y >= stY && y < C;
+		map[px][py] = 0;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -78,7 +87,7 @@ public class Main{
 							int nx = i + dx[l];
 							int ny = j + dy[l];
 							
-							if(isRange(nx, ny, R, C) && map[nx][ny] != -1) {
+							if(isRange(nx, ny) && map[nx][ny] != -1) {
 								tempMap[nx][ny] += amount;
 								tempMap[i][j] -= amount;
 							}
@@ -88,51 +97,17 @@ public class Main{
 			}
 			
 			for (int i = 0; i < R; i++) {
-				map[i] = tempMap[i].clone();
-				Arrays.fill(tempMap[i], 0);
+				for (int j = 0; j < C; j++) {
+					map[i][j] = tempMap[i][j];
+					tempMap[i][j] = 0;
+				}
 			}
 
 			// 공기청정기
-			int dir = 2;
 			// 윗풍
-			int px = upper[0];
-			int py = upper[1];
-			int nx = upper[0]+dx[dir];
-			int ny = upper[1]+dy[dir];
-			while(map[nx][ny] != -1) {
-				if(map[px][py] != -1)
-					map[px][py] = map[nx][ny];
-				px = nx;
-				py = ny;
-				
-				if(!isRange(nx + dx[dir], ny + dy[dir], lower[0], C)) {
-					dir = (dir+3) % 4;
-				}
-				
-				nx = nx+dx[dir];
-				ny = ny+dy[dir];
-			}
-			map[px][py] = 0;
+			wind(upper[0], upper[1], 2, 3, 0, lower[0]);
 			// 아랫품
-			dir = 0;
-			px = lower[0];
-			py = lower[1];
-			nx = lower[0]+dx[dir];
-			ny = lower[1]+dy[dir];
-			while(map[nx][ny] != -1) {
-				if(map[px][py] != -1)
-					map[px][py] = map[nx][ny];
-				px = nx;
-				py = ny;
-				
-				if(!isRange(nx + dx[dir], ny + dy[dir], lower[0], 0, R, C)) {
-					dir = (dir+1) % 4;
-				}
-				
-				nx = nx+dx[dir];
-				ny = ny+dy[dir];
-			}
-			map[px][py] = 0;
+			wind(lower[0], lower[1], 0, 1, lower[0], R);
 		}
 		
 		int total = 0;
