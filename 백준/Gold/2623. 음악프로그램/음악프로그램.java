@@ -3,15 +3,14 @@ import java.io.*;
 
 public class Main{
 	
-	public static List<Integer> select(int[] degrees){
-		List<Integer> list = new ArrayList<>();
+	public static Queue<Integer> select(int[] degrees){
+		Queue<Integer> q = new ArrayDeque<>();
 		for (int i = 1; i < degrees.length; i++) {
 			if(degrees[i] == 0) {
-				degrees[i] = -1;
-				list.add(i);
+				q.add(i);
 			}
 		}
-		return list;
+		return q;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -49,19 +48,17 @@ public class Main{
 		
 		int numComplete = 0;
 		StringBuilder sb = new StringBuilder();
-		while(true) {
-			List<Integer> list = select(degrees);
-			
-			if(list.isEmpty())break;			
-			
-			for(int num : list) {
-				sb.append(num).append("\n");
-				for(int child : childs[num]) {
-					degrees[child]--;
+		Queue<Integer> q = select(degrees);
+		while(!q.isEmpty()) {
+			int num = q.poll();
+			sb.append(num).append("\n");
+			for(int child : childs[num]) {
+				degrees[child]--;
+				if(degrees[child] == 0) {
+					q.add(child);
 				}
 			}
-			
-			numComplete += list.size();
+			numComplete++;
 		}
 		
 		System.out.println(numComplete == N ? sb : "0");
