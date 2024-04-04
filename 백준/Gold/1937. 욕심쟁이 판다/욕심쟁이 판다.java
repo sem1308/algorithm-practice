@@ -24,7 +24,7 @@ public class Main{
             int ny = y + dy[i];
 
             if(isRange(nx,ny) && map[nx][ny] > num){
-                if(dp[nx][ny] == -1){
+                if(dp[nx][ny] == 0){
                     dfs(nx,ny);
                 }
                 dp[x][y] = Math.max(dp[x][y],1+dp[nx][ny]);
@@ -52,14 +52,13 @@ public class Main{
             tokens = new StringTokenizer(br.readLine());
             for (int j = 0; j < N; j++) {
                 map[i][j]= Integer.parseInt(tokens.nextToken());
-                dp[i][j] = -1;
             }
         }
 
         int ans = 0;
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if (dp[i][j] == -1){
+                if (dp[i][j] == 0){
                     dfs(i,j);
                 }
                 ans = Math.max(ans, dp[i][j]);
