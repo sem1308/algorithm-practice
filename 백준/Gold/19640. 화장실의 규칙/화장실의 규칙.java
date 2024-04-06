@@ -50,18 +50,18 @@ public class Main{
             peopleList[i] = new ArrayDeque<>();
         }
 
-        int row = 0;
+        boolean isFirst = true;
         int col = 0;
         for (int i = 0; i < N; i++) {
             tokens = new StringTokenizer(br.readLine());
             int D = Integer.parseInt(tokens.nextToken());
             int H = Integer.parseInt(tokens.nextToken());
             Person person = new Person(i,col,D,H);
-            if(row == 0) firstPeople.add(person);
-            else peopleList[col].add(person);
+            if(isFirst) firstPeople.add(person);
+            else peopleList[col % M].add(person);
             if(++col == M){
                 col = 0;
-                row++;
+                isFirst = false;
             }
         }
 
