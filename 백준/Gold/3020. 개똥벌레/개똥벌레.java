@@ -20,32 +20,33 @@ public class Main{
             3. num이 최소가 되는 값과 그 개수 구함
          */
 
-        int[] num = new int[H];
+        int[] numObstacle = new int[H];
 
         boolean isBottom = true;
         for (int i = 0; i < N; i++) {
             int size = Integer.parseInt(br.readLine());
             if(isBottom){
-                num[0] += 1;
-                num[size] -= 1;
+                numObstacle[0] += 1;
+                numObstacle[size] -= 1;
                 isBottom = false;
             }else{
-                num[H-size] += 1;
+                numObstacle[H-size] += 1;
                 isBottom = true;
             }
         }
 
         for (int i = 1; i < H; i++) {
-            num[i] += num[i-1];
+            numObstacle[i] += numObstacle[i-1];
         }
 
         int min = Integer.MAX_VALUE;
         int minCnt = 0;
         for (int i = 0; i < H; i++) {
-            if(min > num[i]){
+            int numObs = numObstacle[i];
+            if(min > numObs){
                 minCnt = 1;
-                min = num[i];
-            }else if(min == num[i]){
+                min = numObs;
+            }else if(min == numObs){
                 minCnt++;
             }
         }
