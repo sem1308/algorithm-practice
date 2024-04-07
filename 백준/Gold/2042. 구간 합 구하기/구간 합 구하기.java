@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Scanner;
 import java.util.StringTokenizer;
 
 public class Main{
@@ -13,15 +12,15 @@ public class Main{
             tree[node] = num[start];
         } else {
             int mid = (start + end) / 2;
-            build(node * 2, start, mid);
-            build(node * 2 + 1, mid + 1, end);
-            tree[node] = tree[node * 2] + tree[node * 2 + 1];
+            int leftChild = node << 1;
+            build(leftChild, start, mid);
+            build(leftChild + 1, mid + 1, end);
+            tree[node] = tree[leftChild] + tree[leftChild + 1];
         }
     }
 
     static void update(int node, int start, int end, int index, long value) {
         if (start == end) {
-            num[index] = value;
             tree[node] = value;
         } else {
             int mid = (start + end) / 2;
