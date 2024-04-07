@@ -34,7 +34,7 @@ public class Main{
         }
     }
 
-    static long sum(int node, int start, int end, int left, int right) {
+    static long sum(int node, int start, int end, int left, long right) {
         if (end < left || right < start) return 0;
         if (left <= start && end <= right) return tree[node];
         int mid = (start + end) / 2;
@@ -67,7 +67,7 @@ public class Main{
             if (command == 1) {
                 update(1, 1, N, a, b);
             } else {
-                sb.append(sum(1, 1, N, a, (int)b)).append("\n");
+                sb.append(sum(1, 1, N, a, b)).append("\n");
             }
         }
 
