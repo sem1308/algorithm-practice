@@ -24,20 +24,22 @@ public class Main{
             tree[node] = value;
         } else {
             int mid = (start + end) / 2;
-            if (start <= index && index <= mid) {
-                update(node * 2, start, mid, index, value);
+            int leftChild = node << 1;
+            if (index <= mid) {
+                update(leftChild, start, mid, index, value);
             } else {
-                update(node * 2 + 1, mid + 1, end, index, value);
+                update(leftChild + 1, mid + 1, end, index, value);
             }
-            tree[node] = tree[node * 2] + tree[node * 2 + 1];
+            tree[node] = tree[leftChild] + tree[leftChild + 1];
         }
     }
 
-    static long query(int node, int start, int end, int left, int right) {
+    static long sum(int node, int start, int end, int left, int right) {
         if (end < left || right < start) return 0;
         if (left <= start && end <= right) return tree[node];
         int mid = (start + end) / 2;
-        return query(node * 2, start, mid, left, right) + query(node * 2 + 1, mid + 1, end, left, right);
+        int leftChild = node << 1;
+        return sum(leftChild, start, mid, left, right) + sum(leftChild + 1, mid + 1, end, left, right);
     }
 
     public static void main(String[] args) throws IOException {
@@ -65,7 +67,7 @@ public class Main{
             if (command == 1) {
                 update(1, 1, N, a, b);
             } else {
-                sb.append(query(1, 1, N, a, (int)b)).append("\n");
+                sb.append(sum(1, 1, N, a, (int)b)).append("\n");
             }
         }
 
