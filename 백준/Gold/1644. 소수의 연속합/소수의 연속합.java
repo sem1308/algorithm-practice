@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public class Main{
+public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -40,17 +40,17 @@ public class Main{
         }
 
         int answer = 0;
-        Deque<Integer> primes = new ArrayDeque<>();
+        Queue<Integer> primes = new ArrayDeque<>();
         int sum = 0;
         for (int i = N; i >= 2; i--) {
             if(isPrime[i]){
-                primes.add(i);
+                primes.offer(i);
                 sum += i;
                 if(sum == N){
                     answer++;
-                    sum -= primes.pollFirst();
+                    sum -= primes.poll();
                 }else if(sum > N){
-                    sum -= primes.pollFirst();
+                    sum -= primes.poll();
                 }
             }
         }
