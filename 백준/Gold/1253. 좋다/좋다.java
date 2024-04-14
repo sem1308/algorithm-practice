@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public class Main{
+public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -12,10 +12,8 @@ public class Main{
 
         /*
             1. 숫자 2개 조합으로 만들 수 있는 모든 수 set에 저장
-            2. N개 숫자중 set에 포함되는 숫자 개수 출력
-
-            a + b = a or b인 상황 처리
-            만약 a + b = a이고 a가 2개 이상이면
+            2. a + b = a or b인 상황 처리
+            3. N개 숫자중 set에 포함되는 숫자 개수 출력
          */
 
         int N = Integer.parseInt(br.readLine());
@@ -31,8 +29,10 @@ public class Main{
             numsCount.put(num,count+1);
         }
 
-        Set<Integer> set = new HashSet<>();
+        Arrays.sort(nums);
 
+        int answer = 0;
+        boolean[] checked = new boolean[N];
         for (int i = 0; i < N; i++) {
             for (int j = i+1; j < N; j++) {
                 int iCount = numsCount.get(nums[i]);
@@ -42,14 +42,12 @@ public class Main{
                     nums[i] == 0 && jCount < 2 ||
                     nums[j] == 0 && iCount < 2) continue;
 
-                set.add(nums[i] + nums[j]);
-            }
-        }
-
-        int answer = 0;
-        for (int i = 0; i < N; i++) {
-            if(set.contains(nums[i])){
-                answer++;
+                int sum = nums[i] + nums[j];
+                int k = Arrays.binarySearch(nums,sum);
+                if(k >= 0 && !checked[k]){
+                    checked[k] = true;
+                    answer += numsCount.get(sum);
+                }
             }
         }
 
