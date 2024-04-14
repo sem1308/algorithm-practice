@@ -18,15 +18,21 @@ public class Main {
 
             섞고난 후
             k번째 카드는 k % 3번 플레이어에게 감
-            
+
             각 플레이어가 가진 카드를 bit로 표현
          */
 
         int N = Integer.parseInt(br.readLine());
+        int[] nums = new int[N];
+        for (int i = 0; i < N; i++) {
+            nums[i] = i;
+        }
 
         tokens = new StringTokenizer(br.readLine());
+        int[] initP = new int[N];
         int[] P = new int[N];
         for (int i = 0; i < N; i++) {
+            initP[i] = i % 3;
             P[i] = Integer.parseInt(tokens.nextToken());
         }
 
@@ -36,17 +42,12 @@ public class Main {
             S[i] = Integer.parseInt(tokens.nextToken());
         }
 
-        int[] nums = new int[N];
         long[] initCards = new long[3];
         long[] curCards = new long[3];
         long[] ansCards = new long[3];
-        for (int i = 0; i < N; i++) {
-            nums[i] = i;
-            int p = P[i];
-            ansCards[p] |= (1L << i);
-        }
-        distributeCards(nums, initCards);
-        distributeCards(nums, curCards);
+        distributeCards(nums, initP, initCards);
+        distributeCards(nums, initP, curCards);
+        distributeCards(nums, P, ansCards);
 
         int answer = 0;
         while(true){
@@ -68,19 +69,19 @@ public class Main {
                 int idx = S[i];
                 nextNums[idx] = num;
             }
-            nums = nextNums.clone();
+            nums = nextNums;
+
             Arrays.fill(curCards,0);
-            distributeCards(nums, curCards);
+            distributeCards(nums, initP, curCards);
             answer++;
         }
 
         System.out.println(answer);
     }
 
-    private static void distributeCards(int[] nums, long[] cards){
+    private static void distributeCards(int[] nums, int[] P, long[] cards){
         for (int i = 0; i < nums.length; i++) {
-            int p = i % 3;
-            cards[p] |= (1L << nums[i]);
+            cards[P[i]] |= (1L << nums[i]);
         }
     }
 }
