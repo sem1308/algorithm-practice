@@ -32,14 +32,13 @@ class Solution {
 
             int[][] dp = new int[k][n+1];
             
-            for(int i=0; i < k; i++){
-                Arrays.fill(dp[i],Integer.MAX_VALUE);
-            }
             
             int ed = k-1;
+            Arrays.fill(dp[ed],Integer.MAX_VALUE);
             dp[ed][gps_log[ed]] = 0;
             
             for(int i = ed-1; i >= 0; i--){
+                Arrays.fill(dp[i],Integer.MAX_VALUE);
                 for(int j = 1; j <= n; j++){
                     for(int c : adjList[j]){
                         dp[i][j] = Math.min(dp[i][j],dp[i+1][c]);
