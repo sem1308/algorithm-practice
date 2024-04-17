@@ -9,12 +9,10 @@ class Solution {
                 k : 거점 정보 총 개수 <= 100
                 gps_log : 거점 정보
                 
-                dp[t][n] : t초에 n지점인 경우 변경 최솟값
+                dp[i][j] : i초에 j지점인 경우 변경 최솟값
                 
-                dp[6][7] = 0
-                
-                dp[t][n] = gps_log[t] == n ? 1 : 0;                
-                dp[t][n] = min(dp[t+1][c]) // c는 n과 연결된 node
+                dp[i][j] = Math.min(dp[i][j],dp[i+1][c]);
+                if(gps_log[i] != j) dp[i][j]++;
             */
             List<Integer>[] adjList = new ArrayList[n+1];
 
@@ -30,23 +28,23 @@ class Solution {
                 adjList[b].add(a);
             }
 
+            int MAX = 1_000_000_000;
             int[][] dp = new int[k][n+1];
             
-            
             int ed = k-1;
-            Arrays.fill(dp[ed],Integer.MAX_VALUE);
+            Arrays.fill(dp[ed],MAX);
             dp[ed][gps_log[ed]] = 0;
             
             for(int i = ed-1; i >= 0; i--){
-                Arrays.fill(dp[i],Integer.MAX_VALUE);
                 for(int j = 1; j <= n; j++){
+                    dp[i][j] = MAX;
                     for(int c : adjList[j]){
                         dp[i][j] = Math.min(dp[i][j],dp[i+1][c]);
                     }
-                    if(dp[i][j] != Integer.MAX_VALUE && gps_log[i] != j) dp[i][j]++;
+                    if(gps_log[i] != j) dp[i][j]++;
                 }
             }
 
-            return dp[0][gps_log[0]] == Integer.MAX_VALUE ? -1 : dp[0][gps_log[0]];
+            return dp[0][gps_log[0]] >= MAX ? -1 : dp[0][gps_log[0]];
         }
     }
