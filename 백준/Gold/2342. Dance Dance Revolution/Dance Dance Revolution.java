@@ -44,7 +44,6 @@ public class Main {
             }
         }
 
-        int MAX = 1_000_000;
         int[][][] dp = new int[N][5][5];
 
         for (int i = N-3; i >= 0; i--) {
@@ -52,10 +51,17 @@ public class Main {
             int nextN = nums[i+1];
             for (int l = 0; l < 5; l++) {
                 for (int r = 0; r < 5; r++) {
-                    if(l == r || (r != curN && l != curN)) {
-                        // 양 발이 같은 위치에 있거나 현재 칸에 없는 경우는 불가능한 경우
-                        dp[i][l][r] = MAX;
+                    // 양 발이 같은 위치에 있거나 현재 칸에 없는 경우는 넘김
+                    if(l == r || (r != curN && l != curN)) continue;
+
+                    if(l == nextN){
+                        // 왼발이 다음 위치와 동일하다면
+                        dp[i][l][r] = dp[i+1][l][r] + 1;
+                    }else if(r == nextN){
+                        // 오른발이 다음 위치와 동일하다면
+                        dp[i][l][r] = dp[i+1][l][r] + 1;
                     }else{
+                        // 양발 모두 다음 위치와 다르다면
                         dp[i][l][r] = Math.min(dp[i+1][nextN][r] + power[l][nextN], dp[i+1][l][nextN] + power[r][nextN]);
                     }
                 }
