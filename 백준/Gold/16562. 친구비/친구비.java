@@ -4,7 +4,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class Main{
+public class Main {
 
     public static int find(int x, int[] parents){
         if(parents[x] == x) return x;
@@ -62,7 +62,10 @@ public class Main{
             minCost[pw] = 0;
         }
 
-        int sum = Arrays.stream(minCost).sum();
+        int sum = 0;
+        for (int i = 1; i <= N; i++) {
+            sum += minCost[i];
+        }
 
         System.out.println(sum <= k ? sum : "Oh no");
     }
