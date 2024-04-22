@@ -20,6 +20,8 @@ public class Main {
         int[] degrees = new int[N+1];
         int[] times = new int[N+1];
         int[] preMaxTimes = new int[N+1];
+
+        Queue<Integer> q = new ArrayDeque<>();
         for (int i = 1; i <= N; i++) {
             tokens = new StringTokenizer(br.readLine());
 
@@ -33,10 +35,6 @@ public class Main {
                 nextWorks[work].add(i);
                 degrees[i]++;
             }
-        }
-
-        Queue<Integer> q = new ArrayDeque<>();
-        for (int i = 1; i <=N; i++) {
             if(degrees[i] == 0) q.offer(i);
         }
 
