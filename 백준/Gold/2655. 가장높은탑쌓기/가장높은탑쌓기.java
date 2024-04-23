@@ -71,6 +71,8 @@ public class Main {
 
         Arrays.sort(blocks);
 
+        Block result = null;
+        int max = 0;
         dp[N-1] = blocks[N-1].height;
         for (int i = N-2; i >= 0; i--) {
             for (int j = i+1; j < N; j++) {
@@ -84,11 +86,6 @@ public class Main {
                 }
             }
             dp[i] += blocks[i].height;
-        }
-
-        Block result = null;
-        int max = 0;
-        for (int i = 0; i < N; i++) {
             if(max < dp[i]){
                 max = dp[i];
                 result = blocks[i];
