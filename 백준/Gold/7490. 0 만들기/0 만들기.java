@@ -9,41 +9,28 @@ public class Main {
     static StringBuilder resSb = new StringBuilder();
 
     static int N;
-    static public void dfs(int cnt){
+    static public void dfs(int cnt, int result, int curNum, int curOp, char[] formula){
         if(cnt+1 == N){
-            int result = 0;
-            int curNum = 1;
-            char curOp = '+';
-            StringBuilder sb = new StringBuilder();
-            sb.append("1");
-            for (int i = 2; i <= N; i++) {
-                char op = selectedOps[i-2];
-                sb.append(op).append(i);
-
-                switch (op){
-                    case ' ':
-                        curNum = curNum * 10 + i;
-                        break;
-                    case '+':
-                    case '-':
-                        result += curOp == '+' ? curNum : -curNum;
-                        curOp = op;
-                        curNum = i;
-                        break;
-                }
-            }
-
             result += curOp == '+' ? curNum : -curNum;
 
             if(result == 0){
-                resSb.append(sb).append("\n");
+                resSb.append(String.valueOf(formula)).append("\n");
             }
             return;
         }
 
+        int num = cnt+2;
+        int numIdx = 2*(num-1);
+
+        formula[numIdx] = (char)('0'+num);
+
         for (int i = 0; i < 3; i++) {
-            selectedOps[cnt] = ops[i];
-            dfs(cnt+1);
+            formula[numIdx-1] = ops[i];
+            if(i == 0){
+                dfs(cnt+1,result,curNum * 10 + num,curOp,formula);
+            }else{
+                dfs(cnt+1,result + (curOp == '+' ? curNum : -curNum),num,ops[i],formula);
+            }
         }
     }
 
@@ -68,7 +55,10 @@ public class Main {
 
             selectedOps = new char[N];
 
-            dfs(0);
+            char[] formula = new char[2*N-1];
+            formula[0] = '1';
+
+            dfs(0,0,1,'+',formula);
 
             resSb.append("\n");
         }
