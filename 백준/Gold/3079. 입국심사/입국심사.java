@@ -31,14 +31,12 @@ public class Main {
         int N = Integer.parseInt(tokens.nextToken()); // 심사대 수
         long M = Integer.parseInt(tokens.nextToken()); // 인원 수
 
-        long maxTime = 0;
         long[] times = new long[N];
         for (int i = 0; i < N; i++) {
             times[i] = Integer.parseInt(br.readLine());
-            maxTime = Math.max(maxTime, times[i]);
         }
 
-        long rt = maxTime * M;
+        long rt = 1_000_000_000 * M;
         long lt = 1;
 
         while(lt <= rt){
