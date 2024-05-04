@@ -36,7 +36,7 @@ public class Main {
             times[i] = Integer.parseInt(br.readLine());
         }
 
-        long rt = 1_000_000_000 * M;
+        long rt = 1_000_000_000 * (M / N + 1);
         long lt = 1;
 
         while(lt <= rt){
