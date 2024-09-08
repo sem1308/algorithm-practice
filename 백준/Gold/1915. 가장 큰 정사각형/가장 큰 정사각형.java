@@ -20,16 +20,12 @@ public class Main {
 		int N = Integer.parseInt(tokens.nextToken());
 		int M = Integer.parseInt(tokens.nextToken());
 
+		int result = 0;
 		int[][] dp = new int[N+1][M+1];
 		for (int i = 1; i <= N; i++) {
 			String numbers = br.readLine();
 			for (int j = 1; j <= M; j++) {
 				dp[i][j] = numbers.charAt(j-1)-'0';
-			}
-		}
-		int result = 0;
-		for (int i = 1; i <= N; i++) {
-			for (int j = 1; j <= M; j++) {
 				if(dp[i][j] == 0) continue;
 				int min = Math.min(dp[i-1][j],dp[i][j-1]); // 왼쪽 또는 위를 꼭짓점으로 하는 가장 큰 정사각형의 크기 중 최솟값
 				if(dp[i-min][j-min] >= 1) {
