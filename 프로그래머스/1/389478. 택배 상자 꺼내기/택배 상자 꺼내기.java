@@ -26,15 +26,10 @@ class Solution {
         
         int row, col;
         boolean isRowEven;
-        if(num % w == 0) {
-            row = num / w - 1;
-            isRowEven = row % 2 == 0;
-            col = isRowEven ? w - 1 : 0;
-        } else {
-            row = num / w;
-            isRowEven = row % 2 == 0;
-            col = isRowEven ? num - row * w - 1 : w - (num - row * w - 1) - 1;
-        }
+        
+        row = num % w == 0 ? num / w - 1 : num / w;
+        isRowEven = row % 2 == 0;
+        col = isRowEven ? num - row * w - 1 : w - (num - row * w - 1) - 1;
         
         int curNum = num; // 현재 박스 번호
         while(curNum <= n){
